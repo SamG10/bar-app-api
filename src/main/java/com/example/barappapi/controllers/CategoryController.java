@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/category")
@@ -31,6 +32,10 @@ public class CategoryController {
     @GetMapping("/cocktails")
     public ResponseEntity<Map<String, List<Cocktail>>> getAllCategoriesWithCocktails() {
         Map<String, List<Cocktail>> categoriesWithCocktails = categoryService.getAllCategoriesWithCocktails();
-        return new ResponseEntity<>(categoriesWithCocktails, HttpStatus.OK);
+
+        Map<String, List<Cocktail>> filteredCategories = categoriesWithCocktails.entrySet().stream()
+                .filter(entry -> !entry.getValue().isEmpty())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return new ResponseEntity<>(filteredCategories, HttpStatus.OK);
     }
 }

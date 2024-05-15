@@ -25,7 +25,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        var role = request.getRole() == 1 ? Role.STUDENT : request.getRole() == 2 ? Role.FACULTY : Role.ADMIN;
+        var role = request.getRole() == 1 ? Role.ADMIN : request.getRole() == 2 ? Role.USER : Role.ADMIN;
         var user = Barmaker.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
