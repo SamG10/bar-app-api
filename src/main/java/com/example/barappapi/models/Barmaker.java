@@ -1,9 +1,11 @@
 package com.example.barappapi.models;
 
+import com.example.barappapi.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,7 @@ import java.util.List;
 @Data
 @Entity
 @Builder
+@ToString(exclude = "categories")
 @Table(name = "barmakers")
 public class Barmaker implements UserDetails {
     @Id
@@ -31,7 +34,7 @@ public class Barmaker implements UserDetails {
     private List<Category> categories;
 
     @Enumerated(EnumType.STRING)
-    private  Role role;
+    private Role role;
 
     public Barmaker() {
 

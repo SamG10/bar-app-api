@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class CreateOrderDto {
     @NotNull
-    private Number number;
+    private Integer number;
 
     @NotNull
     private Float total_price;
@@ -17,5 +17,5 @@ public class CreateOrderDto {
     @NotNull
     private StatusType status;
 
-    private List<String> cocktails;
+    private List<CocktailItemDto> cocktails;
 }

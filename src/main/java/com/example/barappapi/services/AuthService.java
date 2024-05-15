@@ -4,7 +4,7 @@ import com.example.barappapi.dto.AuthenticationRequest;
 import com.example.barappapi.dto.AuthenticationResponse;
 import com.example.barappapi.dto.RegisterRequest;
 import com.example.barappapi.models.Barmaker;
-import com.example.barappapi.models.Role;
+import com.example.barappapi.enums.Role;
 import com.example.barappapi.repositories.BarmakerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -29,6 +29,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/cocktails").authenticated()
                         .requestMatchers(HttpMethod.GET, "/category/cocktails").permitAll()
                         .requestMatchers(HttpMethod.POST, "/order").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/order").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess-> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

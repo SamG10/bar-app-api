@@ -3,6 +3,7 @@ package com.example.barappapi.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +14,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private Number number;
+    private Integer number;
 
     private Float total_price;
 

@@ -8,6 +8,4 @@ import java.util.Optional;
 
 public interface CocktailOrderRepository extends JpaRepository<CocktailOrder, String> {
     List<CocktailOrder> findByOrderId(String orderId);
-
-    Optional<CocktailOrder> findByOrderIdAndCocktailId(String orderId, String cocktailId);
 }

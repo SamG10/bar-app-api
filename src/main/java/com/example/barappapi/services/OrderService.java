@@ -1,6 +1,7 @@
 package com.example.barappapi.services;
 
 import com.example.barappapi.common.CustomNotFoundException;
+import com.example.barappapi.dto.CocktailItemDto;
 import com.example.barappapi.dto.CreateOrderDto;
 import com.example.barappapi.dto.UpdateCocktailOrderDto;
 import com.example.barappapi.dto.UpdateOrderDto;
@@ -10,6 +11,7 @@ import com.example.barappapi.models.*;
 import com.example.barappapi.repositories.CocktailOrderRepository;
 import com.example.barappapi.repositories.CocktailRepository;
 import com.example.barappapi.repositories.OrderRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ public class OrderService {
 
     @Autowired
     private ModelMapper modelMapper;
+
     @Autowired
     private CocktailRepository cocktailRepository;
 
@@ -35,13 +38,14 @@ public class OrderService {
 
         order = orderRepository.save(order);
 
-        for(String cocktailId : createOrderDto.getCocktails()) {
-            Cocktail cocktail = cocktailRepository.findById(cocktailId)
+        for(CocktailItemDto cocktailId : createOrderDto.getCocktails()) {
+            Cocktail cocktail = cocktailRepository.findById(cocktailId.getId())
                     .orElseThrow(() -> new IllegalArgumentException("Cocktail not found with ID: " + cocktailId));
 
             CocktailOrder cocktailOrder = new CocktailOrder();
             cocktailOrder.setCocktail(cocktail);
             cocktailOrder.setOrder(order);
+            cocktailOrder.setPrice(cocktailId.getPrice());
             cocktailOrder.setStep(StepType.ASSEMBLY);
 
             cocktailOrderRepository.save(cocktailOrder);
@@ -66,8 +70,8 @@ public class OrderService {
         return cocktailOrderRepository.findByOrderId(orderId);
     }
 
-    public void updateCocktailStep(String orderId, String cocktailId, UpdateCocktailOrderDto updateCocktailOrderDto) {
-        Optional<CocktailOrder> cocktailOrderOptional = cocktailOrderRepository.findByOrderIdAndCocktailId(orderId, cocktailId);
+    public void updateCocktailStep(String orderId, String id, UpdateCocktailOrderDto updateCocktailOrderDto) {
+        Optional<CocktailOrder> cocktailOrderOptional = cocktailOrderRepository.findById(id);
         if (cocktailOrderOptional.isPresent()) {
             CocktailOrder cocktailOrder = cocktailOrderOptional.get();
             cocktailOrder.setStep(StepType.valueOf(updateCocktailOrderDto.getStep()));
@@ -75,6 +79,7 @@ public class OrderService {
 
             /* Search cocktails by orderId */
             List<CocktailOrder> cocktailOrders = cocktailOrderRepository.findByOrderId(orderId);
+
             boolean allCompleted = cocktailOrders.stream().allMatch(co -> co.getStep() == StepType.COMPLETED);
 
             if (allCompleted) {
@@ -92,5 +97,9 @@ public class OrderService {
 
     public Optional<Order> getOrderById(String orderId) {
         return orderRepository.findById(orderId);
+    }
+
+    public List<Order> findAllOrders() {
+        return orderRepository.findAll();
     }
 }
