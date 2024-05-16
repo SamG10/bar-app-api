@@ -38,4 +38,10 @@ public class CategoryController {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         return new ResponseEntity<>(filteredCategories, HttpStatus.OK);
     }
+
+    @GetMapping()
+    public ResponseEntity<List<Category>> getAllCategories() {
+        List<Category> categories = categoryService.getAllCategories();
+        return ResponseEntity.ok(categories);
+    }
 }

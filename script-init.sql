@@ -49,8 +49,7 @@ CREATE TABLE cocktails_order (
 
 INSERT INTO barmakers (email, password, role)
 VALUES
-    ('admin@admin.fr', '$2a$10$Eon1W9qxCiLzWSRhMdXmB.lU0P7syA450PNm7XZ46gW2794965IY2', 'ADMIN'),
-    ('user@user.fr', '$2a$10$Eon1W9qxCiLzWSRhMdXmB.lU0P7syA450PNm7XZ46gW2794965IY2', 'USER');
+    ('admin@admin.fr', '$2a$10$Eon1W9qxCiLzWSRhMdXmB.lU0P7syA450PNm7XZ46gW2794965IY2', 'ADMIN');
 
 INSERT INTO categories (name, barmaker_id)
 VALUES
