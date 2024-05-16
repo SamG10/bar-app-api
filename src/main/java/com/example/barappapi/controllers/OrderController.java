@@ -26,7 +26,6 @@ public class OrderController {
     public ResponseEntity<Order> createOrder(@RequestBody CreateOrderDto createOrderDto) {
         try {
             Order order = orderService.createOrder(createOrderDto);
-            System.out.println(order);
             return new ResponseEntity<>(order, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

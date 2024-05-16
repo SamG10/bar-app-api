@@ -3,6 +3,7 @@
 ## Configuration requise
 
 - Java 17
+- Node
 - Apache Maven
 - Docker
 
@@ -16,6 +17,11 @@
 
 ## Script initialisation base de donnée
 
-Exécutez le script script-init.sql pour créer les tables et insérer des données de test dans la base de données.
+1. Faire un `docker compose up -d` pour lancer la base de donnée
+2. Exécuter : `npm install pg dotenv`
+3. Exécuter la commande `node init.js` dans le dossier bar-app-api qui va créer les tables et ajouter des données.
+
+Un user avec l'email: admin@admin.fr et un password: password sera créer ainsi qu'un user : user@user.fr avec un password: password 
+Pour accéder au détails d'une commande dans le front il faudrait être connecté avec le user admin@admin.fr
 
 Enjoy !

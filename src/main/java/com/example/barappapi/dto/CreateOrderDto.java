@@ -15,7 +15,7 @@ public class CreateOrderDto {
     private Float total_price;
 
     @NotNull
-    private StatusType status;
+    private StatusType status = StatusType.ORDERED;
 
     private List<CocktailItemDto> cocktails;
 }

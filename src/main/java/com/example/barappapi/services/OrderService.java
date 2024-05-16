@@ -35,7 +35,6 @@ public class OrderService {
 
     public Order createOrder(CreateOrderDto createOrderDto) {
         Order order = modelMapper.map(createOrderDto, Order.class);
-
         order = orderRepository.save(order);
 
         for(CocktailItemDto cocktailId : createOrderDto.getCocktails()) {
@@ -81,14 +80,20 @@ public class OrderService {
             List<CocktailOrder> cocktailOrders = cocktailOrderRepository.findByOrderId(orderId);
 
             boolean allCompleted = cocktailOrders.stream().allMatch(co -> co.getStep() == StepType.COMPLETED);
+            boolean anyMatchDressage = cocktailOrders.stream().anyMatch(co -> co.getStep() == StepType.DRESSAGE);
 
-            if (allCompleted) {
-                Optional<Order> orderOptional = orderRepository.findById(orderId);
-                if (orderOptional.isPresent()) {
-                    Order order = orderOptional.get();
-                    order.setStatus(String.valueOf(StatusType.COMPLETED));
-                    orderRepository.save(order);
-                }
+            Optional<Order> orderOptional = orderRepository.findById(orderId);
+
+            if(anyMatchDressage && orderOptional.isPresent()) {
+                Order order = orderOptional.get();
+                order.setStatus(String.valueOf(StatusType.IN_PROGRESS));
+                orderRepository.save(order);
+            }
+
+            if (allCompleted && orderOptional.isPresent()) {
+                Order order = orderOptional.get();
+                order.setStatus(String.valueOf(StatusType.COMPLETED));
+                orderRepository.save(order);
             }
         } else {
             throw new RuntimeException("Cocktail not found in order");
